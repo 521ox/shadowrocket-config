@@ -22,6 +22,8 @@ https://raw.githubusercontent.com/521ox/shadowrocket-config/main/peizhi.conf
 
 The main profile keeps the existing service policies, DNS/IPv6 settings, and node-management approach. Maintenance removes the unavailable `wlxuf/add_rule` references and replaces the old ChatGPT source with the maintained OpenAI category. Cross-client rules use the upstream Shadowrocket format, including companion `DOMAIN-SET` files where required. The unavailable custom amendment lists cannot be reconstructed from their names.
 
+The 18 user-supplied Binance domain suffixes listed at the start of `[Rule]` explicitly use `PROXY` before remote rule sets. Each rule covers the listed domain and its subdomains. This routing list does not verify domain ownership or website safety.
+
 ## Optional APNs proxy module
 
 This module is intended for testing cases where foreground app access works but background push notifications fail on the current APNs network path. It is **not** automatically activated by updating `peizhi.conf`.
