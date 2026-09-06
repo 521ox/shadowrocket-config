@@ -1,0 +1,26 @@
+#!name=APNs Proxy (Optional)
+#!desc=Opt-in shared Apple push routing through the selected PROXY node. Delivery is not guaranteed.
+
+# Optional: not loaded by peizhi.conf; enable this module separately.
+# Shared system APNs connections affect all apps, not only Telegram.
+# These rules cannot separate notifications by app. All apps' push delivery
+# may depend on the selected node: built-in PROXY uses the app's selected node.
+# The system Include APNs tunnel setting may be required; rules alone cannot
+# capture APNs traffic excluded by iOS. Check the installed version's settings.
+# No guaranteed delivery. Disable/remove this module and restore prior tunnel
+# settings to roll back; reconnect to retire existing APNs connections.
+# Apple APNs ranges: https://support.apple.com/en-us/102266
+# Native Shadowrocket lists use IP-CIDR for both IPv4 and IPv6.
+
+[Rule]
+DOMAIN-SUFFIX,push.apple.com,PROXY
+DOMAIN,courier-push-apple.com.akadns.net,PROXY
+IP-CIDR,17.249.0.0/16,PROXY,no-resolve
+IP-CIDR,17.252.0.0/16,PROXY,no-resolve
+IP-CIDR,17.57.144.0/22,PROXY,no-resolve
+IP-CIDR,17.188.128.0/18,PROXY,no-resolve
+IP-CIDR,17.188.20.0/23,PROXY,no-resolve
+IP-CIDR,2620:149:a44::/48,PROXY,no-resolve
+IP-CIDR,2403:300:a42::/48,PROXY,no-resolve
+IP-CIDR,2403:300:a51::/48,PROXY,no-resolve
+IP-CIDR,2a01:b740:a42::/48,PROXY,no-resolve
