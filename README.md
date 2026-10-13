@@ -1,10 +1,10 @@
 # Shadowrocket configuration
 
-A rule-based configuration for Shadowrocket. This repository does not provide proxy servers, subscriptions, or credentials. `PROXY` uses the node selected in Shadowrocket. Foreign AI traffic uses a dedicated **AI** policy group filtered by node remark name.
+A rule-based configuration for Shadowrocket. This repository does not provide proxy servers, subscriptions, or credentials. `PROXY` uses the node selected manually on the Shadowrocket home screen.
 
 | File | Purpose | Default |
 | --- | --- | --- |
-| [`peizhi.conf`](peizhi.conf) | Main service-routing configuration | Apple: `DIRECT`; OpenAI / Claude / Anthropic / Gemini / Copilot / x.ai: `AI` (non-HK/CN/TW/MO by name); Discord / Telegram: `PROXY`; China domains + ChinaIPs + GeoIP CN: `DIRECT`; unmatched: `PROXY` |
+| [`peizhi.conf`](peizhi.conf) | Main service-routing configuration | Apple: `DIRECT`; OpenAI / Claude / Anthropic / Gemini / Copilot / x.ai / Discord / Telegram: `PROXY`; China domains + ChinaIPs + GeoIP CN: `DIRECT`; unmatched: `PROXY` |
 | [`modules/apns-proxy.sgmodule`](modules/apns-proxy.sgmodule) | Optional Apple Push Notification service (APNs) proxy rules | Not included or enabled by the main configuration |
 
 ## Install or update the main configuration
@@ -17,18 +17,18 @@ https://raw.githubusercontent.com/521ox/shadowrocket-config/main/peizhi.conf
 
 1. Export your current configuration before replacing it. Updating a remote configuration can overwrite local edits.
 2. In Shadowrocket, open **Configuration**, add the URL, download it, and select **Use Configuration**. For an existing remote profile, **update** it, then **Use Configuration** again so Shadowrocket recompiles and refreshes referenced rule sets (including `ChinaIPs` and Gemini / Copilot).
-3. Set **Global Routing** to **Configuration**, select a working proxy node, and connect. Other global modes or enabled modules can override the intended routing.
-4. Open the **AI** proxy group and pick a US / JP / SG (or other non-HK/CN) node. The group uses `policy-regex-filter` on node remarks, so rename subscription nodes with clear region labels if the filter looks empty.
-5. Check compilation and rule-set download results. A downloaded profile is not proof that every referenced rule was loaded successfully.
+3. Set **Global Routing** to **Configuration**, select a working proxy node on the home screen, and connect. Other global modes or enabled modules can override the intended routing.
+4. Check compilation and rule-set download results. A downloaded profile is not proof that every referenced rule was loaded successfully.
 
 ### Routing highlights (current `main`)
 
-- **AI policy group**: OpenAI, Claude, Anthropic, Gemini, Copilot, plus `x.ai` / `grok.com`, use group `AI`. Filter excludes remarks matching 港/HK/香港、中国/回国、台湾/TW、澳门/Macao (and common flag emoji). Bare `CN` is not used as a token so names like `CN2 GIA` usually remain. Entire **Google** list stays `PROXY` (not retargeted to AI).
+- **No policy groups**: all `PROXY` rules use the home-screen selected node. Pick a non-HK/CN node yourself when using foreign AI services.
+- **Foreign AI early `PROXY`**: OpenAI, Claude, Anthropic, Gemini, Copilot, plus `x.ai` / `grok.com`, before bulk Google / Microsoft lists. Entire **Google** list stays `PROXY`.
 - **China before Global**: overlapping domains stay `DIRECT`.
 - **ChinaIPs** (CIDR `RULE-SET`, with `no-resolve` in the list) sits before `GEOIP,CN` as a second mainland-IP path when GeoIP alone is wrong.
 - **Remote lists** use [jsDelivr](https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Shadowrocket/) CDN mirrors of blackmatrix7 `ios_rule_script` (same paths as GitHub raw; usually more reliable from mainland networks).
 - **SteamCN** = `DIRECT`; international **Steam** / **Game** = `PROXY`. Sony / Nintendo / Epic / Microsoft stay `DIRECT` (unchanged).
-- **Discord** is early `PROXY`. Claude / Anthropic / OpenAI are early `AI`.
+- **Discord** is early `PROXY`.
 - **Lan** is matched before the bulk China / Global lists.
 - Apple services remain `DIRECT` in the main profile. Optional APNs proxy stays a separate module.
 
@@ -89,4 +89,3 @@ Repository checks can verify rule structure, policy preservation, APNs range sco
 - [Stash: missing notifications on some network exits and proxy trade-offs](https://stash.wiki/en/faq/ios-push-notifications)
 - [Upstream Shadowrocket rule categories and their usage instructions](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket)
 - [jsDelivr CDN for GitHub-hosted rule files](https://www.jsdelivr.com/github)
-- [Shadowrocket proxy-group / policy-regex-filter notes](https://github.com/LOWERTOP/Shadowrocket)
