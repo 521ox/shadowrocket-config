@@ -4,7 +4,7 @@ A rule-based configuration for Shadowrocket. This repository does not provide pr
 
 | File | Purpose | Default |
 | --- | --- | --- |
-| [`peizhi.conf`](peizhi.conf) | Main service-routing configuration | Apple: `DIRECT`; Telegram: `PROXY`; mainland GeoIP: `DIRECT`; unmatched traffic: `PROXY` |
+| [`peizhi.conf`](peizhi.conf) | Main service-routing configuration | Apple: `DIRECT`; Telegram / Discord / Claude: `PROXY`; China domains + ChinaIPs + GeoIP CN: `DIRECT`; unmatched: `PROXY` |
 | [`modules/apns-proxy.sgmodule`](modules/apns-proxy.sgmodule) | Optional Apple Push Notification service (APNs) proxy rules | Not included or enabled by the main configuration |
 
 ## Install or update the main configuration
@@ -16,11 +16,21 @@ https://raw.githubusercontent.com/521ox/shadowrocket-config/main/peizhi.conf
 ```
 
 1. Export your current configuration before replacing it. Updating a remote configuration can overwrite local edits.
-2. In Shadowrocket, open **Configuration**, add the URL, download it, and select **Use Configuration**. For an existing remote profile, update it, then use/compile it again to refresh referenced rule sets.
+2. In Shadowrocket, open **Configuration**, add the URL, download it, and select **Use Configuration**. For an existing remote profile, **update** it, then **Use Configuration** again so Shadowrocket recompiles and refreshes referenced rule sets (including `ChinaIPs`).
 3. Set **Global Routing** to **Configuration**, select a working proxy node, and connect. Other global modes or enabled modules can override the intended routing.
 4. Check compilation and rule-set download results. A downloaded profile is not proof that every referenced rule was loaded successfully.
 
-The main profile keeps the existing service policies, DNS/IPv6 settings, and node-management approach. Maintenance removes the unavailable `wlxuf/add_rule` references and replaces the old ChatGPT source with the maintained OpenAI category. Cross-client rules use the upstream Shadowrocket format, including companion `DOMAIN-SET` files where required. The unavailable custom amendment lists cannot be reconstructed from their names.
+### Routing highlights (current `main`)
+
+- **China before Global**: overlapping domains stay `DIRECT`.
+- **ChinaIPs** (CIDR `RULE-SET`, with `no-resolve` in the list) sits before `GEOIP,CN` as a second mainland-IP path when GeoIP alone is wrong.
+- **Remote lists** use [jsDelivr](https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Shadowrocket/) CDN mirrors of blackmatrix7 `ios_rule_script` (same paths as GitHub raw; usually more reliable from mainland networks).
+- **SteamCN** = `DIRECT`; international **Steam** / **Game** = `PROXY`. Sony / Nintendo / Epic / Microsoft stay `DIRECT` (unchanged).
+- **Discord**, **Claude**, and **Anthropic** are explicit early `PROXY` rules (alongside OpenAI / Telegram style services).
+- **Lan** is matched before the bulk China / Global lists.
+- Apple services remain `DIRECT` in the main profile. Optional APNs proxy stays a separate module.
+
+The main profile keeps the existing DNS/IPv6 settings and node-management approach. Maintenance removes the unavailable `wlxuf/add_rule` references and replaces the old ChatGPT source with the maintained OpenAI category. Cross-client rules use the upstream Shadowrocket format, including companion `DOMAIN-SET` files where required. The unavailable custom amendment lists cannot be reconstructed from their names.
 
 The 18 user-supplied Binance domain suffixes listed at the start of `[Rule]` explicitly use `PROXY` before remote rule sets. Each rule covers the listed domain and its subdomains. This routing list does not verify domain ownership or website safety.
 
@@ -76,3 +86,4 @@ Repository checks can verify rule structure, policy preservation, APNs range sco
 - [Apple: network hosts and TLS interception restrictions](https://support.apple.com/en-us/101555)
 - [Stash: missing notifications on some network exits and proxy trade-offs](https://stash.wiki/en/faq/ios-push-notifications)
 - [Upstream Shadowrocket rule categories and their usage instructions](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket)
+- [jsDelivr CDN for GitHub-hosted rule files](https://www.jsdelivr.com/github)
