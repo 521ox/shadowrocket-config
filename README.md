@@ -31,7 +31,7 @@ https://raw.githubusercontent.com/521ox/shadowrocket-config/main/peizhi.conf
 - **Discord** is early `PROXY`.
 - **Lan** is matched before the bulk China / Global lists.
 - Apple services remain `DIRECT` in the main profile. Optional APNs proxy stays a separate module.
-- **Direct DNS** stays on the system resolver: `dns-direct-system = true`, `dns-direct-fallback-proxy = false`, `fallback-dns-server = system`. A failed direct lookup does not retry through the proxy, so domestic CDNs are not steered to an overseas edge. IPv6 stays off. The profile still does not define proxy nodes.
+- **Direct DNS** uses domestic resolvers `223.5.5.5` and `119.29.29.29` (`dns-direct-system = false`). `fallback-dns-server = system`. A failed direct lookup may still use the proxy (`dns-direct-fallback-proxy = true`), which keeps the App Store resolvable when system DNS fails inside the tunnel. Apple, iCloud, and `mzstatic.com` are pinned to `223.5.5.5` in `[Host]`. IPv6 stays off. Proxy domains still resolve on the selected node. The profile does not define proxy nodes.
 
 The main profile keeps the existing node-management approach. Maintenance removes the unavailable `wlxuf/add_rule` references and replaces the old ChatGPT source with the maintained OpenAI category. Cross-client rules use the upstream Shadowrocket format, including companion `DOMAIN-SET` files where required. The unavailable custom amendment lists cannot be reconstructed from their names.
 
