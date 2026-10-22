@@ -31,8 +31,9 @@ https://raw.githubusercontent.com/521ox/shadowrocket-config/main/peizhi.conf
 - **Discord** is early `PROXY`.
 - **Lan** is matched before the bulk China / Global lists.
 - Apple services remain `DIRECT` in the main profile. Optional APNs proxy stays a separate module.
+- **Direct DNS** stays on the system resolver: `dns-direct-system = true`, `dns-direct-fallback-proxy = false`, `fallback-dns-server = system`. A failed direct lookup does not retry through the proxy, so domestic CDNs are not steered to an overseas edge. IPv6 stays off. The profile still does not define proxy nodes.
 
-The main profile keeps the existing DNS/IPv6 settings and node-management approach. Maintenance removes the unavailable `wlxuf/add_rule` references and replaces the old ChatGPT source with the maintained OpenAI category. Cross-client rules use the upstream Shadowrocket format, including companion `DOMAIN-SET` files where required. The unavailable custom amendment lists cannot be reconstructed from their names.
+The main profile keeps the existing node-management approach. Maintenance removes the unavailable `wlxuf/add_rule` references and replaces the old ChatGPT source with the maintained OpenAI category. Cross-client rules use the upstream Shadowrocket format, including companion `DOMAIN-SET` files where required. The unavailable custom amendment lists cannot be reconstructed from their names.
 
 The 18 user-supplied Binance domain suffixes listed at the start of `[Rule]` explicitly use `PROXY` before remote rule sets. Each rule covers the listed domain and its subdomains. This routing list does not verify domain ownership or website safety.
 
