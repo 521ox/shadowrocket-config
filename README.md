@@ -4,7 +4,7 @@ A rule-based configuration for Shadowrocket. This repository does not provide pr
 
 | File | Purpose | Default |
 | --- | --- | --- |
-| [`peizhi.conf`](peizhi.conf) | Main service-routing configuration | Apple: `DIRECT`; OpenAI / Claude / Anthropic / Gemini / Copilot / x.ai / Discord / Telegram: `PROXY`; China domains + ChinaIPs + GeoIP CN: `DIRECT`; unmatched: `PROXY` |
+| [`peizhi.conf`](peizhi.conf) | Main service-routing configuration | Apple: explicit `PROXY` rules for apple.com/itunes.com/mzstatic.com/cdn-apple.com (select the Turkey node for the TR App Store) override the Apple `DIRECT` lists; OpenAI / Claude / Anthropic / Gemini / Copilot / x.ai / Discord / Telegram: `PROXY`; China domains + ChinaIPs + GeoIP CN: `DIRECT`; unmatched: `PROXY` |
 | [`modules/apns-proxy.sgmodule`](modules/apns-proxy.sgmodule) | Optional Apple Push Notification service (APNs) proxy rules | Not included or enabled by the main configuration |
 
 ## Install or update the main configuration
